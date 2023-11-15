@@ -24,7 +24,7 @@ export const CartContextProvider = ({ children }) => {
 
 
     useEffect(() => {
-        axios.get("https://clownfish-sari.cyclic.app/api/v1/products")
+        axios.get("https://dull-gold-marlin-tux.cyclic.app/api/v1/products")
             .then((res) => {
                 console.log(res);
                 setProducts(res.data.products);
@@ -43,7 +43,7 @@ export const CartContextProvider = ({ children }) => {
             const fetchCart = async () => {
                 try {
                     // console.log(_id);
-                    const res = await axios.get(`https://clownfish-sari.cyclic.app/api/v1/cart/${_id}`);
+                    const res = await axios.get(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/${_id}`);
                     // console.log(res);
                     let cart = res.data;
                     // console.log(cart);
@@ -57,12 +57,16 @@ export const CartContextProvider = ({ children }) => {
 
             };
 
-            fetchCart();
+            return () => {
+                fetchCart();
+            };
         }
-    }, [loggedUser, state.cart, _id]);
 
 
+    }, [loggedUser, _id]);
 
+
+    // console.log(state.cart);
 
 
 

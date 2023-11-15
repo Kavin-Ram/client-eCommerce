@@ -74,7 +74,7 @@ const Register = () => {
             // let sizeInMegabytes = sizeInKilobytes / 1024;
             // console.log(`Size of payload in megabytes: ${sizeInMegabytes}`);
 
-            await axios.post("https://clownfish-sari.cyclic.app/api/v1/users/create", newUser)
+            await axios.post("https://dull-gold-marlin-tux.cyclic.app/api/v1/users/create", newUser)
                 .then((res) => {
                     alert(`${user.username} user is created successfully `);
                     navigate("/login");

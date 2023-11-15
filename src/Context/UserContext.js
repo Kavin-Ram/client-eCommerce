@@ -25,7 +25,7 @@ export const UserContextProvider = ({ children }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get("https://clownfish-sari.cyclic.app/api/v1/users");
+                const res = await axios.get("https://dull-gold-marlin-tux.cyclic.app/api/v1/users");
                 setUsers(res.data.users);
             } catch (error) {
                 console.log(error);

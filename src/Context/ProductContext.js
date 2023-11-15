@@ -66,7 +66,7 @@ export const CartContextProvider = ({ children }) => {
     }, [loggedUser, _id]);
 
 
-    // console.log(state.cart);
+    console.log(state.cart);
 
 
 

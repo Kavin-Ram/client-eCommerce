@@ -157,7 +157,7 @@ const Cart = () => {
                 <div className="emptyCartConatiner"> <p>No Products In the cart</p>
                     <img src={emptyCart} alt='' width={250} height={250} />
                     <Link to="/"><button className='homeBtn' >Back to Home</button></Link></div>
-            };
+            }
             <Footer />
 
         </div >

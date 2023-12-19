@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../Components/Header';
 import { CartContext } from '../Context/ProductContext';
 import axios from 'axios';
@@ -9,11 +9,37 @@ import Footer from '../Components/Footer';
 
 const Cart = () => {
 
-    const { loggedUser } = useContext(UserContext);
+    const { loggedUser, loggedUser: { _id } } = useContext(UserContext);
 
+
+
+    console.log(_id);
     const { state: { cart }, dispatch } = useContext(CartContext);
+    const [cartN, setCartN] = useState([]);
+    console.log(cartN);
+    // console.log(cart);
 
     // const [cartDisplay, setCartDisplay] = useState(cart);
+
+
+
+    useEffect(() => {
+
+        if (_id) {
+            console.log(_id);
+            axios
+                .get(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/${_id}`)
+                .then((res) => {
+                    console.log(res.data.cart.items);
+                    setCartN(res.data.cart.items);
+                })
+                .catch((err) => console.log(err));
+        }
+    }, [_id, cart]);
+
+
+
+
 
 
 
@@ -27,7 +53,7 @@ const Cart = () => {
     // };
 
     const calculateTotalPrice = () => {
-        return Number(cart.reduce((total, product) => {
+        return Number(cartN.reduce((total, product) => {
             return total + product.productId?.price * product.quantity;
         }, 0).toFixed(2));
     };
@@ -35,32 +61,78 @@ const Cart = () => {
 
 
 
-    const removeCartItem = (prod) => {
-        // console.log(prod._id);
-        axios
-            .delete(
-                `https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/remove/${prod._id}`
-            )
-            .then((response) => {
-                console.log("Product removed from cart:", response.data);
-                alert("product removed");
-            })
-            .catch((error) => {
-                console.log(error);
-                console.error("Error removing product from cart:", error);
-                alert("error");
-            });
+    // const removeCartItem = (prod) => {
+    //     // console.log(prod._id);
 
-        dispatch({ type: 'REMOVE_FROM_CART', payload: prod });
-
-        // const newCart = cart.filter(product => {
-        //     console.log(product._id);
-        //     return product._id !== prod._id;
-        // });
-        // console.log(newCart);
-        // setCartDisplay(newCart);
+    //     axios
+    //         .delete(
+    //             `https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/remove/${prod._id}`
+    //         )
+    //         .then((response) => {
+    //             console.log("Product removed from cart:", response.data);
+    //             alert("product removed");
 
 
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //             console.error("Error removing product from cart:", error);
+    //             alert("error");
+    //         });
+
+    //     // dispatch({ type: 'REMOVE_FROM_CART', payload: prod });
+
+    //     const newCart = cartN.filter(product => {
+    //         console.log(product._id);
+    //         return product._id !== prod._id;
+    //     });
+
+
+    //     if (newCart.length > 0) {
+    //         console.log(newCart);
+    //         setCartN(newCart);
+    //         dispatch({ type: 'REMOVE_FROM_CART', payload: newCart });
+
+    //     } else {
+    //         let emptyCartN = [
+    //             {}
+    //         ];
+    //         setCartN([]);
+    //         dispatch({ type: 'REMOVE_FROM_CART', payload: emptyCartN });
+
+    //     }
+
+    //     console.log(prod);
+
+
+
+
+    // };
+
+    const removeCartItem = async (prod) => {
+        try {
+            const response = await axios.delete(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/remove/${prod._id}`);
+            console.log("Product removed from cart:", response.data);
+            alert("product removed");
+
+            const newCart = cartN.filter(product => product._id !== prod._id);
+
+            if (newCart.length > 0) {
+                console.log(newCart);
+                setCartN(newCart);
+                dispatch({ type: 'REMOVE_FROM_CART', payload: newCart });
+            } else {
+                let emptyCartN = [{}];
+                setCartN([]);
+                dispatch({ type: 'REMOVE_FROM_CART', payload: emptyCartN });
+            }
+
+            console.log(prod);
+        } catch (error) {
+            console.log(error);
+            console.error("Error removing product from cart:", error);
+            alert("error");
+        }
     };
 
 
@@ -95,7 +167,7 @@ const Cart = () => {
     return (
         <div>
             <Header />
-            {cart.length ? < div className='cartContainerDiv'>
+            {cartN.length ? < div className='cartContainerDiv'>
                 <div className='cartContainer' style={{ borderCollapse: "collapse", width: "70%" }}>
                     <table style={{ borderCollapse: "collapse", width: "100%" }} >
                         <thead>
@@ -110,12 +182,12 @@ const Cart = () => {
 
                         </thead>
                         <tbody>
-                            {cart.map((product, index) => {
+                            {cartN.map((product, index) => {
                                 // console.log(cart);
                                 return (
                                     <tr key={index} className="cart-product" >
                                         <td><img src={product.productId.image} alt={product.productId.title} width={50} height={50} /></td>
-                                        {/* <td>{product.title.substring(0, 10)}</td> */}
+                                        <td>{product.productId.title.substring(0, 10)}</td>
                                         <td>
                                             {/* <button className='incrementBtn' onClick={() => handleDecrementQuantity(product.productId?._id)}>-</button> */}
                                             {product?.quantity}

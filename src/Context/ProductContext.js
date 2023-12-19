@@ -39,7 +39,8 @@ export const CartContextProvider = ({ children }) => {
 
 
     useEffect(() => {
-        if (loggedUser) {
+        if (loggedUser._id) {
+            console.log(_id);
             const fetchCart = async () => {
                 try {
                     // console.log(_id);

@@ -1,17 +1,40 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 // import { FaUserCircle, FaShoppingCart, FaSistrix } from "react-icons/fa";
 // import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import { UserContext } from '../Context/UserContext';
 import { CartContext } from '../Context/ProductContext';
+import axios from 'axios';
 
 const Header = () => {
 
-    const { loggedUser } = useContext(UserContext);
+
+    const { loggedUser, loggedUser: { _id } } = useContext(UserContext);
     // console.log(loggedUser.userName);
     const { state: { cart } } = useContext(CartContext);
-    // console.log(cart);
+    console.log(cart);
+
+
+    const [cartN, setCartN] = useState([]);
+    const [cartLength, setCartLength] = useState(0);
+    console.log(cartN);
+    useEffect(() => {
+
+        if (_id) {
+            console.log(_id);
+            axios
+                .get(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/${_id}`)
+                .then((res) => {
+                    console.log(res.data.cart.items);
+
+                    setCartN(res.data.cart.items);
+                    let itemsLength = res.cart?.items.length;
+                    setCartLength(itemsLength);
+                })
+                .catch((err) => console.log(err));
+        }
+    }, [_id]);
 
     const [clicked, setClicked] = useState(false);
     const [navVisible, setNavVisible] = useState(false);
@@ -63,7 +86,7 @@ const Header = () => {
                                 color: 'white',
                                 fontSize: '10px'
                             }}>
-                                {cart?.length}
+                                {cart?.length - 1}
                             </span>}
                         </div>
                     </div>

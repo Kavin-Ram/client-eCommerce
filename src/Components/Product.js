@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CartContext } from '../Context/ProductContext';
 import { UserContext } from '../Context/UserContext';
 import axios from 'axios';
@@ -7,8 +7,11 @@ import { Link } from 'react-router-dom';
 const Product = () => {
     const { products, setProducts, state: { cart }, dispatch } = useContext(CartContext);
 
+    const [cartN, setCartN] = useState([]);
+    console.log(cartN);
+    console.log(cart);
 
-    const { loggedUser } = useContext(UserContext);
+    const { loggedUser, loggedUser: { _id } } = useContext(UserContext);
     // console.log(loggedUser._id);
 
     // const [quantity, setQuantity] = useState(1);
@@ -17,6 +20,18 @@ const Product = () => {
 
 
 
+    useEffect(() => {
+        if (_id) {
+            console.log(_id);
+            axios
+                .get(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/${_id}`)
+                .then((res) => {
+                    console.log(res.data.cart.items);
+                    setCartN(res.data.cart.items);
+                })
+                .catch((err) => console.log(err));
+        }
+    }, [_id, cart]);
 
     const handleSort = (event) => {
         const value = event.target.value;
@@ -128,7 +143,9 @@ const Product = () => {
                                 // }
 
                                 // Find the product in the cart
-                                const existingProduct = cart.find(item => item.productId._id === product._id);
+
+                                const existingProduct = cart.find(item => item._id === product._id);
+                                // const existingProduct = cart.find(item => console.log(item));
 
                                 if (existingProduct) {
                                     // If the product is already in the cart, increment its quantity
@@ -149,6 +166,7 @@ const Product = () => {
                                 } else {
                                     // If the product is not in the cart, add it
                                     const newProduct = { ...product, quantity: 1 };
+
 
                                     // Add the product to the cart
                                     dispatch({ type: 'ADD_TO_CART', payload: [...cart, newProduct] });
@@ -175,4 +193,3 @@ const Product = () => {
 };
 
 export default Product;
-// 

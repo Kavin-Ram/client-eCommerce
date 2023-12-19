@@ -17,7 +17,7 @@ const Header = () => {
 
 
     const [cartN, setCartN] = useState([]);
-    const [cartLength, setCartLength] = useState(0);
+    // const [cartLength, setCartLength] = useState(0);
     console.log(cartN);
     useEffect(() => {
 

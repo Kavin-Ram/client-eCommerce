@@ -86,7 +86,7 @@ const Header = () => {
                                 color: 'white',
                                 fontSize: '10px'
                             }}>
-                                {cart?.length - 1}
+                                {cart.length === 0 ? 0 : cart?.length - 1}
                             </span>}
                         </div>
                     </div>

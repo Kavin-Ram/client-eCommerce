@@ -30,7 +30,7 @@ const Header = () => {
 
                     setCartN(res.data.cart.items);
                     let itemsLength = res.cart?.items.length;
-                    setCartLength(itemsLength);
+                    // setCartLength(itemsLength);
                 })
                 .catch((err) => console.log(err));
         }

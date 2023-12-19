@@ -190,15 +190,15 @@ const Cart = () => {
                                 // console.log(cart);
                                 return (
                                     <tr key={index} className="cart-product" >
-                                        <td><img src={product.productId.image} alt={product.productId.title} width={50} height={50} /></td>
-                                        <td>{product.productId.title.substring(0, 10)}</td>
-                                        <td>
+                                        <td className='txt'><img src={product.productId.image} alt={product.productId.title} width={50} height={50} /></td>
+                                        <td className='txt'>{product.productId.title.substring(0, 10)}</td>
+                                        <td className='txt'>
                                             {/* <button className='incrementBtn' onClick={() => handleDecrementQuantity(product.productId?._id)}>-</button> */}
                                             {product?.quantity}
                                             {/* <button className='decrementBtn' onClick={() => handleIncrementQuantity(product.productId?._id)}>+</button> */}
                                         </td>
-                                        <td>Rs.{product.productId.price}</td>
-                                        <td>Rs.{(product.productId.price) * product.quantity}</td>
+                                        <td className='txt'>Rs.{product.productId.price}</td>
+                                        <td className='txt'>Rs.{(product.productId.price) * product.quantity}</td>
                                         <td><button className="removeBtn"
                                             onClick={() => removeCartItem(product)}
                                         >X</button></td>

@@ -659,6 +659,14 @@ a {
     width: 100% !important;
     padding: 10px !important;
   }
+
+  .cartHead {
+    font-size: 12px !important;
+  }
+
+  .cart-product .txt {
+    font-size: 12px !important;
+  }
   .paymentContainer {
     /* width: 45%; */
     justify-content: flex-end;

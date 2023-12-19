@@ -5,6 +5,8 @@ import Slide from '../Components/Slide';
 import Product from '../Components/Product';
 import Footer from '../Components/Footer';
 
+
+
 const Home = () => {
 
     // const { loggedUser } = useContext(UserContext);

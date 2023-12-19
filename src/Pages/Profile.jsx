@@ -5,6 +5,8 @@ import FileBase64 from "react-file-base64";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
+import config from '../Config/url_configuration';
+
 
 
 const Profile = () => {
@@ -45,7 +47,7 @@ const Profile = () => {
 
         // console.log(updatedUser);
 
-        await axios.put(`https://clownfish-sari.cyclic.app/api/v1/users/${user._id}`, updatedUser)
+        await axios.put(`${config.BASE_URL}/api/v1/users/${user._id}`, updatedUser)
             .then((updatedUser) => {
                 alert("User details updated successfully");
             })
@@ -58,7 +60,7 @@ const Profile = () => {
 
     const handleDelete = async (e) => {
         if (window.confirm("Are you to delete the user")) {
-            await axios.delete(`https://clownfish-sari.cyclic.app/api/v1/users/${user._id}`)
+            await axios.delete(`${config.BASE_URL}/api/v1/users/${user._id}`)
                 .then((deleteduser) => {
                     alert("User Deleted successfully");
                     sessionStorage.removeItem("loggedInUser");

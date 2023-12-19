@@ -6,6 +6,10 @@ import { Link } from 'react-router-dom';
 import emptyCart from '../images/emptyCart.jpg';
 import { UserContext } from '../Context/UserContext';
 import Footer from '../Components/Footer';
+import config from '../Config/url_configuration';
+
+
+
 
 const Cart = () => {
 
@@ -28,7 +32,7 @@ const Cart = () => {
         if (_id) {
             console.log(_id);
             axios
-                .get(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/${_id}`)
+                .get(`${config.BASE_URL}/api/v1/cart/${_id}`)
                 .then((res) => {
                     console.log(res.data.cart.items);
                     setCartN(res.data.cart.items);
@@ -111,7 +115,7 @@ const Cart = () => {
 
     const removeCartItem = async (prod) => {
         try {
-            const response = await axios.delete(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/remove/${prod._id}`);
+            const response = await axios.delete(`${config.BASE_URL}/api/v1/cart/remove/${prod._id}`);
             console.log("Product removed from cart:", response.data);
             alert("product removed");
 
@@ -143,7 +147,7 @@ const Cart = () => {
         let emptyCart = [
             {}
         ];
-        axios.delete(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/delete/${loggedUser._id}`)
+        axios.delete(`${config.BASE_URL}/api/v1/cart/delete/${loggedUser._id}`)
             .then((res) => {
 
                 dispatch({

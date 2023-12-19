@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import FileBase64 from "react-file-base64";
 import axios from "axios";
 // import { Buffer } from 'buffer';
+import config from '../Config/url_configuration';
 
 
 
@@ -74,7 +75,7 @@ const Register = () => {
             // let sizeInMegabytes = sizeInKilobytes / 1024;
             // console.log(`Size of payload in megabytes: ${sizeInMegabytes}`);
 
-            await axios.post("https://dull-gold-marlin-tux.cyclic.app/api/v1/users/create", newUser)
+            await axios.post(`${config.BASE_URL}/api/v1/users/create`, newUser)
                 .then((res) => {
                     alert(`${user.username} user is created successfully `);
                     navigate("/login");

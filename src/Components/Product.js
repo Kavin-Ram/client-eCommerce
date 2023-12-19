@@ -3,6 +3,7 @@ import { CartContext } from '../Context/ProductContext';
 import { UserContext } from '../Context/UserContext';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import config from '../Config/url_configuration';
 
 const Product = () => {
     const { products, setProducts, state: { cart }, dispatch } = useContext(CartContext);
@@ -24,7 +25,7 @@ const Product = () => {
         if (_id) {
             console.log(_id);
             axios
-                .get(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/${_id}`)
+                .get(`${config.BASE_URL}/api/v1/cart/${_id}`)
                 .then((res) => {
                     console.log(res.data.cart.items);
                     setCartN(res.data.cart.items);
@@ -158,7 +159,7 @@ const Product = () => {
                                     dispatch({ type: 'UPDATE_CART', payload: newCart });
 
                                     // Update the cart in the backend
-                                    await axios.patch(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/update/${loggedUser._id}`, {
+                                    await axios.patch(`${config.BASE_URL}/api/v1/cart/update/${loggedUser._id}`, {
                                         userId: loggedUser._id,
                                         productId: product._id,
                                         quantity: updatedProduct.quantity
@@ -172,7 +173,7 @@ const Product = () => {
                                     dispatch({ type: 'ADD_TO_CART', payload: [...cart, newProduct] });
 
                                     // Add the product to the cart in the backend
-                                    await axios.post("https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/add", {
+                                    await axios.post(`${config.BASE_URL}/api/v1/cart/add`, {
                                         userId: loggedUser._id,
                                         productId: product._id,
                                         quantity: newProduct.quantity

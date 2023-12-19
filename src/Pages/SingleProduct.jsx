@@ -5,6 +5,8 @@ import axios from 'axios';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
 import { CartContext } from '../Context/ProductContext';
+import config from '../Config/url_configuration';
+
 
 const SingleProduct = () => {
     const { loggedUser } = useContext(UserContext);
@@ -19,7 +21,7 @@ const SingleProduct = () => {
 
     useEffect(() => {
         const fetchSingleProduct = async () => {
-            await axios.get(`https://dull-gold-marlin-tux.cyclic.app/api/v1/products/${id}`)
+            await axios.get(`${config.BASE_URL}/api/v1/products/${id}`)
                 .then((res) => {
                     setSingleProduct(res.data.product);
                 }).catch((error) => {
@@ -43,7 +45,7 @@ const SingleProduct = () => {
             dispatch({ type: 'UPDATE_CART', payload: newCart });
 
             // Update the cart in the backend
-            await axios.patch(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/update/${loggedUser._id}`, {
+            await axios.patch(`${config.BASE_URL}/api/v1/cart/update/${loggedUser._id}`, {
                 userId: loggedUser._id,
                 productId: product._id,
                 quantity: updatedProduct.quantity
@@ -56,7 +58,7 @@ const SingleProduct = () => {
             dispatch({ type: 'ADD_TO_CART', payload: [...cart, newProduct] });
 
             // Add the product to the cart in the backend
-            await axios.post("https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/add", {
+            await axios.post(`${config.BASE_URL}/api/v1/cart/add`, {
                 userId: loggedUser._id,
                 productId: product._id,
                 quantity: newProduct.quantity

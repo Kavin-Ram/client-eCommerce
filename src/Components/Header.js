@@ -6,6 +6,12 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../Context/UserContext';
 import { CartContext } from '../Context/ProductContext';
 import axios from 'axios';
+import config from '../Config/url_configuration';
+
+
+
+
+
 
 const Header = () => {
 
@@ -14,27 +20,67 @@ const Header = () => {
     // console.log(loggedUser.userName);
     const { state: { cart } } = useContext(CartContext);
     console.log(cart);
+    console.log(cart.length);
 
 
     const [cartN, setCartN] = useState([]);
-    // const [cartLength, setCartLength] = useState(0);
-    console.log(cartN);
+    const [cartLength, setCartLength] = useState("");
+    console.log(cartN.length);
+    // useEffect(() => {
+
+    //     if (_id) {
+    //         console.log(_id);
+    //         axios
+    //             .get(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/${_id}`)
+    //             .then((res) => {
+    //                 console.log(res.data.cart.items);
+    //                 const cartData = res.data.cart;
+    //                 const itemsLength = cartData.items.length;
+    //                 setCartN(res.data.cart.items);
+    //                 setCartLength(itemsLength);
+    //             })
+    //             .catch((err) => console.log(err));
+    //     }
+    // }, [_id]);
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         if (_id) {
+    //             console.log(_id);
+    //             try {
+    //                 const res = await axios.get(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/${_id}`);
+    //                 console.log(res.data.cart.items);
+    //                 const cartData = res.data.cart;
+    //                 const itemsLength = cartData.items.length;
+    //                 setCartN(res.data.cart.items);
+    //                 setCartLength(itemsLength);
+    //             } catch (err) {
+    //                 console.log(err);
+    //             }
+    //         }
+    //     };
+    //     fetchData();
+    // }, [_id]);
+
     useEffect(() => {
-
-        if (_id) {
-            console.log(_id);
-            axios
-                .get(`https://dull-gold-marlin-tux.cyclic.app/api/v1/cart/${_id}`)
-                .then((res) => {
+        const fetchData = async () => {
+            if (_id) {
+                console.log(_id);
+                try {
+                    const res = await axios.get(`${config.BASE_URL}/api/v1/cart/${_id}`);
                     console.log(res.data.cart.items);
-
+                    const cartData = res.data.cart;
+                    const itemsLength = cartData.items.length;
                     setCartN(res.data.cart.items);
-                    // let itemsLength = res.cart?.items.length;
-                    // setCartLength(itemsLength);
-                })
-                .catch((err) => console.log(err));
-        }
-    }, [_id]);
+                    setCartLength(itemsLength);
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        };
+        fetchData();
+    }, [_id, cart.length]);
+
 
     const [clicked, setClicked] = useState(false);
     const [navVisible, setNavVisible] = useState(false);
@@ -86,7 +132,7 @@ const Header = () => {
                                 color: 'white',
                                 fontSize: '10px'
                             }}>
-                                {cart.length === 0 ? 0 : cart?.length - 1}
+                                {cart.length === 1 ? cartLength : cart.length - 1}
                             </span>}
                         </div>
                     </div>

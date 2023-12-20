@@ -24,8 +24,8 @@ const Header = () => {
 
 
     const [cartN, setCartN] = useState([]);
-    const [cartLength, setCartLength] = useState("");
-    console.log(cartN.length);
+    // const [cartLength, setCartLength] = useState("");
+    // console.log(cartN.length);
     // useEffect(() => {
 
     //     if (_id) {
@@ -69,10 +69,10 @@ const Header = () => {
                 try {
                     const res = await axios.get(`${config.BASE_URL}/api/v1/cart/${_id}`);
                     console.log(res.data.cart.items);
-                    const cartData = res.data.cart;
-                    const itemsLength = cartData.items.length;
+                    // const cartData = res.data.cart;
+                    // const itemsLength = cartData.items.length;
                     setCartN(res.data.cart.items);
-                    setCartLength(itemsLength);
+                    // setCartLength(itemsLength);
                 } catch (err) {
                     console.log(err);
                 }

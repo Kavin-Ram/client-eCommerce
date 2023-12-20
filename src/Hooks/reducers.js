@@ -38,7 +38,7 @@ export const cartReducer = (state, action) => {
         case "EMPTY_CART":
             return {
                 ...state,
-                cart: [{ ...action.payload }]
+                cart: []
             };
 
         default:

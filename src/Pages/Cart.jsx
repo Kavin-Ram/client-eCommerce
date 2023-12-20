@@ -144,9 +144,7 @@ const Cart = () => {
 
     const handlePayment = () => {
 
-        let emptyCart = [
-            {}
-        ];
+        let emptyCart = { ...cart, items: [], };
         axios.delete(`${config.BASE_URL}/api/v1/cart/delete/${loggedUser._id}`)
             .then((res) => {
 
